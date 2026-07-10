@@ -10,4 +10,4 @@ target/
 .classpath
 .project
 out/
-src/main/resources/application.properties
+src/main/resources/application*.yml
