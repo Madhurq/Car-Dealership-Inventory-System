@@ -150,7 +150,7 @@ export default function LandingPage() {
         </div>
 
         {/* Tilted car card */}
-        <div className="absolute bottom-8 right-8 md:bottom-16 md:right-16 hidden lg:block pointer-events-none">
+        <div className="absolute bottom-24 right-8 md:bottom-32 md:right-16 hidden lg:block pointer-events-none">
           <motion.div
             initial={{ opacity: 0, rotate: 12, scale: 0.8 }}
             animate={{ opacity: 1, rotate: 12, scale: 1 }}
@@ -206,26 +206,14 @@ export default function LandingPage() {
           >
             <Link
               to="/register"
-              className="group relative px-8 py-4 text-base font-semibold text-slate-900 bg-white rounded-2xl transition-all duration-300 shadow-2xl shadow-teal-500/20 hover:shadow-teal-500/30 hover:scale-[1.02] active:scale-[0.98] flex items-center gap-2.5 overflow-hidden"
+              className="group relative px-8 py-4 text-base font-semibold text-slate-900 bg-white rounded-2xl transition-all duration-300 shadow-2xl shadow-teal-500/20 hover:shadow-teal-500/30 hover:scale-[1.02] active:scale-[0.98] overflow-hidden"
             >
               <span className="absolute inset-0 bg-gradient-to-r from-teal-50 to-emerald-50 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-out" />
-              <span className="relative z-10">Get Started Free</span>
-              <span className="relative z-10 inline-flex h-5 w-5 items-center justify-center overflow-hidden">
-                <span className="absolute transition-all duration-300 group-hover:-translate-y-full group-hover:opacity-0">&rarr;</span>
-                <span className="absolute transition-all duration-300 translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100">&nearr;</span>
-              </span>
-            </Link>
-            <Link
-              to="/vehicles"
-              className="group relative px-8 py-4 text-base font-semibold text-white border border-white/15 hover:border-white/30 hover:bg-white/5 rounded-2xl transition-all duration-300 backdrop-blur-sm overflow-hidden"
-            >
-              <span className="absolute inset-0 bg-gradient-to-r from-white/5 to-white/10 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-out" />
               <span className="relative z-10 flex items-center gap-2">
-                View Inventory
-                <span className="inline-flex h-5 w-5 items-center justify-center overflow-hidden">
-                  <span className="absolute transition-all duration-300 group-hover:-translate-y-full group-hover:opacity-0">&rarr;</span>
-                  <span className="absolute transition-all duration-300 translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100">&nearr;</span>
-                </span>
+                Get Started Free
+                <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                </svg>
               </span>
             </Link>
           </motion.div>
@@ -413,13 +401,14 @@ export default function LandingPage() {
               <div className="mt-10 flex flex-wrap justify-center gap-5">
                 <Link
                   to="/register"
-                  className="group relative px-8 py-4 text-base font-semibold text-slate-900 bg-white rounded-2xl transition-all duration-300 shadow-2xl shadow-white/10 hover:shadow-white/20 hover:scale-[1.02] active:scale-[0.98] flex items-center gap-2 overflow-hidden"
+                  className="group relative px-8 py-4 text-base font-semibold text-slate-900 bg-white rounded-2xl transition-all duration-300 shadow-2xl shadow-white/10 hover:shadow-white/20 hover:scale-[1.02] active:scale-[0.98] overflow-hidden"
                 >
                   <span className="absolute inset-0 bg-gradient-to-r from-teal-50 to-emerald-50 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-out" />
-                  <span className="relative z-10">Start for Free</span>
-                  <span className="relative z-10 inline-flex h-5 w-5 items-center justify-center overflow-hidden">
-                    <span className="absolute transition-all duration-300 group-hover:-translate-y-full group-hover:opacity-0">&rarr;</span>
-                    <span className="absolute transition-all duration-300 translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100">&nearr;</span>
+                  <span className="relative z-10 flex items-center gap-2">
+                    Start for Free
+                    <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                    </svg>
                   </span>
                 </Link>
                 <Link
