@@ -6,6 +6,7 @@ import com.dealership.inventory.model.Vehicle;
 import com.dealership.inventory.repo.VehicleRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class VehicleService {
@@ -51,6 +52,7 @@ public class VehicleService {
         vehicleRepository.deleteById(id);
     }
 
+    @Transactional
     public Vehicle purchase(Long id) {
         var vehicle = findById(id);
         if (vehicle.getQuantity() <= 0) {
@@ -60,6 +62,7 @@ public class VehicleService {
         return vehicleRepository.save(vehicle);
     }
 
+    @Transactional
     public Vehicle restock(Long id, int quantity) {
         var vehicle = findById(id);
         vehicle.setQuantity(vehicle.getQuantity() + quantity);

@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL} # Render will inject this
+    username: ${SPRING_DATASOURCE_USERNAME} # Render will inject this
+    password: ${SPRING_DATASOURCE_PASSWORD} # Render will inject this
+  jpa:
+    hibernate:
+      ddl-auto: validate # NEVER use 'update' in production. We validate the schema instead.
+    show-sql: false
+
+app:
+  jwt:
+    secret: ${APP_JWT_SECRET}
+    expiration-ms: ${APP_JWT_EXPIRATION_MS:86400000}
+  admin:
+    email: ${APP_ADMIN_EMAIL:admin@dealership.com}
+    password: ${APP_ADMIN_PASSWORD}
