@@ -123,11 +123,18 @@ class VehicleControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     void delete_ShouldReturn204() throws Exception {
         mockMvc.perform(delete("/api/vehicles/1").with(csrf()))
                 .andExpect(status().isNoContent());
 
         verify(vehicleService).delete(1L);
+    }
+
+    @Test
+    void delete_ShouldReturn403_WhenNotAdmin() throws Exception {
+        mockMvc.perform(delete("/api/vehicles/1").with(csrf()))
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -150,6 +157,7 @@ class VehicleControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     void restock_ShouldReturnUpdated() throws Exception {
         var vehicle = new Vehicle("Toyota", "Camry", "Sedan", 25000.0, 15);
         vehicle.setId(1L);
@@ -160,6 +168,17 @@ class VehicleControllerTest {
                         .param("quantity", "5"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.quantity").value(15));
+    }
+
+    @Test
+    void restock_ShouldReturn403_WhenNotAdmin() throws Exception {
+        var vehicle = new Vehicle("Toyota", "Camry", "Sedan", 25000.0, 15);
+        when(vehicleService.restock(1L, 5)).thenReturn(vehicle);
+
+        mockMvc.perform(post("/api/vehicles/1/restock")
+                        .with(csrf())
+                        .param("quantity", "5"))
+                .andExpect(status().isForbidden());
     }
 
     @Test
