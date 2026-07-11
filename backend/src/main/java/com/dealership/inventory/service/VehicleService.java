@@ -23,7 +23,13 @@ public class VehicleService {
 
     public List<Vehicle> search(String make, String model, String category,
                                  Double minPrice, Double maxPrice) {
-        return vehicleRepository.searchVehicles(make, model, category, minPrice, maxPrice);
+        return vehicleRepository.searchVehicles(
+                wrapLike(make), wrapLike(model), wrapLike(category),
+                minPrice, maxPrice);
+    }
+
+    private String wrapLike(String value) {
+        return value != null ? "%" + value + "%" : null;
     }
 
     public Vehicle findById(Long id) {
