@@ -150,4 +150,86 @@ class VehicleControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.quantity").value(15));
     }
+
+    @Test
+    void search_ByMake_ShouldReturnFiltered() throws Exception {
+        var vehicle = new Vehicle("Toyota", "Camry", "Sedan", 25000.0, 10);
+        vehicle.setId(1L);
+        when(vehicleService.search(eq("Toyota"), any(), any(), any(), any()))
+                .thenReturn(List.of(vehicle));
+
+        mockMvc.perform(get("/api/vehicles/search")
+                        .param("make", "Toyota"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].make").value("Toyota"));
+    }
+
+    @Test
+    void search_ByModel_ShouldReturnFiltered() throws Exception {
+        var vehicle = new Vehicle("Honda", "Civic", "Sedan", 22000.0, 5);
+        vehicle.setId(1L);
+        when(vehicleService.search(any(), eq("Civic"), any(), any(), any()))
+                .thenReturn(List.of(vehicle));
+
+        mockMvc.perform(get("/api/vehicles/search")
+                        .param("model", "Civic"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].model").value("Civic"));
+    }
+
+    @Test
+    void search_ByCategory_ShouldReturnFiltered() throws Exception {
+        var vehicle = new Vehicle("Toyota", "Camry", "SUV", 35000.0, 7);
+        vehicle.setId(1L);
+        when(vehicleService.search(any(), any(), eq("SUV"), any(), any()))
+                .thenReturn(List.of(vehicle));
+
+        mockMvc.perform(get("/api/vehicles/search")
+                        .param("category", "SUV"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].category").value("SUV"));
+    }
+
+    @Test
+    void search_ByPriceRange_ShouldReturnFiltered() throws Exception {
+        var vehicle = new Vehicle("Toyota", "Camry", "Sedan", 25000.0, 10);
+        vehicle.setId(1L);
+        when(vehicleService.search(any(), any(), any(), eq(20000.0), eq(30000.0)))
+                .thenReturn(List.of(vehicle));
+
+        mockMvc.perform(get("/api/vehicles/search")
+                        .param("minPrice", "20000")
+                        .param("maxPrice", "30000"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].price").value(25000.0));
+    }
+
+    @Test
+    void search_WithNoParams_ShouldReturnAll() throws Exception {
+        var vehicles = List.of(
+                new Vehicle("Toyota", "Camry", "Sedan", 25000.0, 10),
+                new Vehicle("Honda", "Civic", "Sedan", 22000.0, 5)
+        );
+        when(vehicleService.search(any(), any(), any(), any(), any()))
+                .thenReturn(vehicles);
+
+        mockMvc.perform(get("/api/vehicles/search"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)));
+    }
+
+    @Test
+    void search_WithNoMatches_ShouldReturnEmpty() throws Exception {
+        when(vehicleService.search(any(), any(), any(), any(), any()))
+                .thenReturn(List.of());
+
+        mockMvc.perform(get("/api/vehicles/search")
+                        .param("make", "NonExistent"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(0)));
+    }
 }
