@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/vehicles")
+@PreAuthorize("isAuthenticated()")
 public class VehicleController {
 
     private final VehicleService vehicleService;
