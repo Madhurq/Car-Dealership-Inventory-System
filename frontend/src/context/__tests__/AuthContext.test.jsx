@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { renderHook, act } from '@testing-library/react';
+import { renderHook, act, waitFor } from '@testing-library/react';
 import { AuthProvider, useAuth } from '../AuthContext';
 
 vi.mock('../../api/axios', () => ({
@@ -20,10 +20,10 @@ describe('AuthContext', () => {
     vi.clearAllMocks();
   });
 
-  it('starts with no user and loading true', () => {
+  it('starts with no user and finishes loading', async () => {
     const { result } = renderHook(() => useAuth(), { wrapper });
+    await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.user).toBeNull();
-    expect(result.current.loading).toBe(true);
   });
 
   it('loads user from localStorage on mount', () => {

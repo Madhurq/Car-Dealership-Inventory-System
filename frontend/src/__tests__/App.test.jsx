@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { AuthProvider } from '../context/AuthContext';
 import App from '../App';
 
 vi.mock('../api/axios', () => ({
@@ -10,29 +11,29 @@ vi.mock('../api/axios', () => ({
 function renderWithRouter(ui, { route = '/' } = {}) {
   return render(
     <MemoryRouter initialEntries={[route]}>
-      {ui}
+      <AuthProvider>{ui}</AuthProvider>
     </MemoryRouter>
   );
 }
 
 describe('App', () => {
-  it('renders navbar with AutoVault brand', () => {
+  it('renders navbar with AutoVault brand', async () => {
     renderWithRouter(<App />);
-    expect(screen.getByText(/AutoVault/i)).toBeInTheDocument();
+    expect(await screen.findByText(/AutoVault/i)).toBeInTheDocument();
   });
 
-  it('renders login link when not authenticated', () => {
+  it('renders login link when not authenticated', async () => {
     renderWithRouter(<App />);
-    expect(screen.getByText(/Login/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Login/i)).toBeInTheDocument();
   });
 
-  it('renders register link when not authenticated', () => {
+  it('renders register link when not authenticated', async () => {
     renderWithRouter(<App />);
-    expect(screen.getByText(/Register/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Register/i)).toBeInTheDocument();
   });
 
-  it('renders the home page by default', () => {
+  it('renders the home page by default', async () => {
     renderWithRouter(<App />);
-    expect(screen.getByText(/AutoVault/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Vehicle Inventory/i)).toBeInTheDocument();
   });
 });
