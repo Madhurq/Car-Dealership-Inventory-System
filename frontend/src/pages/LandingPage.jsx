@@ -231,33 +231,6 @@ export default function LandingPage() {
         <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-white to-transparent" />
       </section>
 
-      {/* Brand Marquee */}
-      <div className="relative -mt-16 z-10 pb-16">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="bg-white rounded-3xl shadow-2xl shadow-gray-200/50 border border-gray-100 p-8"
-          >
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {[
-                { value: '500+', label: 'Dealerships', color: 'text-teal-600' },
-                { value: '10K+', label: 'Vehicles Tracked', color: 'text-blue-600' },
-                { value: '99.9%', label: 'Uptime', color: 'text-emerald-600' },
-                { value: '24/7', label: 'Support', color: 'text-purple-600' },
-              ].map((stat) => (
-                <div key={stat.label} className="text-center">
-                  <p className={`text-3xl md:text-4xl font-bold ${stat.color}`}>{stat.value}</p>
-                  <p className="mt-1 text-sm text-gray-500 font-medium">{stat.label}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </div>
-
       {/* Brand ticker */}
       <div className="relative overflow-hidden py-6 border-y border-gray-100 bg-gray-50/50">
         <div className="flex whitespace-nowrap" style={{ animation: 'marquee 30s linear infinite' }}>
