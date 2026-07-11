@@ -38,6 +38,8 @@ const particles = Array.from({ length: 30 }, (_, i) => ({
   duration: 5 + (i % 7),
 }));
 
+const brands = ['Toyota', 'Honda', 'BMW', 'Ford', 'Tesla', 'Chevrolet', 'Mercedes', 'Audi', 'Nissan', 'Hyundai', 'Kia', 'Porsche', 'Lexus', 'Jeep', 'Subaru'];
+
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
@@ -80,7 +82,7 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950">
+      <section className="relative min-h-screen flex items-center justify-center bg-slate-950">
         {/* Grid pattern */}
         <div
           className="absolute inset-0 opacity-[0.04]"
@@ -91,60 +93,64 @@ export default function LandingPage() {
           }}
         />
 
-        {/* Animated gradient blobs */}
-        <motion.div
-          className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full bg-gradient-to-br from-teal-500/25 to-emerald-500/10 blur-[128px]"
-          animate={{
-            scale: [1, 1.15, 1],
-            opacity: [0.25, 0.4, 0.25],
-            x: [0, 40, 0],
-            y: [0, -30, 0],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <motion.div
-          className="absolute -bottom-32 -left-32 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/10 blur-[128px]"
-          animate={{
-            scale: [1.1, 1, 1.1],
-            opacity: [0.2, 0.35, 0.2],
-            x: [0, -30, 0],
-            y: [0, 40, 0],
-          }}
-          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
-        />
-        <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-teal-600/5 blur-[160px]"
-          animate={{ scale: [1, 1.08, 1], opacity: [0.05, 0.1, 0.05] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-        />
+        {/* Animated gradient blobs — each in its own overflow-hidden */}
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.div
+            className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full bg-gradient-to-br from-teal-500/25 to-emerald-500/10 blur-[128px]"
+            animate={{
+              scale: [1, 1.15, 1],
+              opacity: [0.25, 0.4, 0.25],
+              x: [0, 40, 0],
+              y: [0, -30, 0],
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <motion.div
+            className="absolute -bottom-32 -left-32 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/10 blur-[128px]"
+            animate={{
+              scale: [1.1, 1, 1.1],
+              opacity: [0.2, 0.35, 0.2],
+              x: [0, -30, 0],
+              y: [0, 40, 0],
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+          />
+          <motion.div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-teal-600/5 blur-[160px]"
+            animate={{ scale: [1, 1.08, 1], opacity: [0.05, 0.1, 0.05] }}
+            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+          />
+        </div>
 
         {/* Floating particles */}
-        {particles.map((p) => (
-          <motion.div
-            key={p.id}
-            className="absolute rounded-full bg-white"
-            style={{
-              width: p.size,
-              height: p.size,
-              left: `${p.x}%`,
-              top: `${p.y}%`,
-            }}
-            animate={{
-              y: [-10, -800],
-              opacity: [0, 0.5, 0.5, 0],
-              x: [0, (p.id % 2 === 0 ? 30 : -30)],
-            }}
-            transition={{
-              duration: p.duration,
-              repeat: Infinity,
-              delay: p.delay,
-              ease: 'linear',
-            }}
-          />
-        ))}
+        <div className="absolute inset-0 overflow-hidden">
+          {particles.map((p) => (
+            <motion.div
+              key={p.id}
+              className="absolute rounded-full bg-white"
+              style={{
+                width: p.size,
+                height: p.size,
+                left: `${p.x}%`,
+                top: `${p.y}%`,
+              }}
+              animate={{
+                y: [-10, -800],
+                opacity: [0, 0.5, 0.5, 0],
+                x: [0, (p.id % 2 === 0 ? 30 : -30)],
+              }}
+              transition={{
+                duration: p.duration,
+                repeat: Infinity,
+                delay: p.delay,
+                ease: 'linear',
+              }}
+            />
+          ))}
+        </div>
 
         {/* Decorative car silhouette */}
-        <div className="absolute bottom-0 right-0 opacity-[0.02] pointer-events-none">
+        <div className="absolute bottom-0 right-0 opacity-[0.02] pointer-events-none overflow-hidden">
           <RiCarLine className="w-[600px] h-[600px] text-white -mb-20 -mr-20" />
         </div>
 
@@ -153,28 +159,15 @@ export default function LandingPage() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-          >
-            <div className="inline-flex items-center gap-2.5 px-4 py-2 bg-white/5 backdrop-blur-md rounded-full text-sm text-white/80 mb-8 border border-white/10">
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400" />
-              </span>
-              Trusted by 500+ dealerships worldwide
-            </div>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.92] tracking-tight"
           >
-            Smart Car Dealership
-            <span className="block mt-2 bg-gradient-to-r from-teal-300 via-emerald-300 to-cyan-300 bg-clip-text text-transparent">
-              Inventory Management
-            </span>
-          </motion.h1>
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.92] tracking-tight">
+              Smart Car Dealership
+              <span className="block mt-2 bg-gradient-to-r from-teal-300 via-emerald-300 to-cyan-300 bg-clip-text text-transparent">
+                Inventory Management
+              </span>
+            </h1>
+          </motion.div>
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}
@@ -196,15 +189,25 @@ export default function LandingPage() {
               to="/register"
               className="group relative px-8 py-4 text-base font-semibold text-slate-900 bg-white rounded-2xl transition-all duration-300 shadow-2xl shadow-teal-500/20 hover:shadow-teal-500/30 hover:scale-[1.02] active:scale-[0.98] flex items-center gap-2.5 overflow-hidden"
             >
+              <span className="absolute inset-0 bg-gradient-to-r from-teal-50 to-emerald-50 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-out" />
               <span className="relative z-10">Get Started Free</span>
-              <span className="relative z-10 group-hover:translate-x-1 transition-transform">&rarr;</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-teal-50 to-emerald-50 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <span className="relative z-10 inline-flex h-5 w-5 items-center justify-center overflow-hidden">
+                <span className="absolute transition-all duration-300 group-hover:-translate-y-full group-hover:opacity-0">&rarr;</span>
+                <span className="absolute transition-all duration-300 translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100">&nearr;</span>
+              </span>
             </Link>
             <Link
               to="/vehicles"
-              className="px-8 py-4 text-base font-semibold text-white border border-white/15 hover:border-white/30 hover:bg-white/5 rounded-2xl transition-all duration-300 backdrop-blur-sm"
+              className="group relative px-8 py-4 text-base font-semibold text-white border border-white/15 hover:border-white/30 hover:bg-white/5 rounded-2xl transition-all duration-300 backdrop-blur-sm overflow-hidden"
             >
-              View Inventory
+              <span className="absolute inset-0 bg-gradient-to-r from-white/5 to-white/10 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-out" />
+              <span className="relative z-10 flex items-center gap-2">
+                View Inventory
+                <span className="inline-flex h-5 w-5 items-center justify-center overflow-hidden">
+                  <span className="absolute transition-all duration-300 group-hover:-translate-y-full group-hover:opacity-0">&rarr;</span>
+                  <span className="absolute transition-all duration-300 translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100">&nearr;</span>
+                </span>
+              </span>
             </Link>
           </motion.div>
         </div>
@@ -228,8 +231,8 @@ export default function LandingPage() {
         <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-white to-transparent" />
       </section>
 
-      {/* Trusted By */}
-      <section className="relative -mt-16 z-10 pb-16">
+      {/* Brand Marquee */}
+      <div className="relative -mt-16 z-10 pb-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -253,7 +256,16 @@ export default function LandingPage() {
             </div>
           </motion.div>
         </div>
-      </section>
+      </div>
+
+      {/* Brand ticker */}
+      <div className="relative overflow-hidden py-6 border-y border-gray-100 bg-gray-50/50">
+        <div className="flex whitespace-nowrap" style={{ animation: 'marquee 30s linear infinite' }}>
+          {[...brands, ...brands].map((brand, i) => (
+            <span key={i} className="mx-8 text-lg font-semibold text-gray-300 select-none">{brand}</span>
+          ))}
+        </div>
+      </div>
 
       {/* Features */}
       <section id="features" className="py-20 md:py-28">
@@ -409,10 +421,14 @@ export default function LandingPage() {
               <div className="mt-10 flex flex-wrap justify-center gap-5">
                 <Link
                   to="/register"
-                  className="group px-8 py-4 text-base font-semibold text-slate-900 bg-white hover:bg-gray-100 rounded-2xl transition-all duration-300 shadow-2xl shadow-white/10 hover:shadow-white/20 hover:scale-[1.02] active:scale-[0.98] flex items-center gap-2"
+                  className="group relative px-8 py-4 text-base font-semibold text-slate-900 bg-white rounded-2xl transition-all duration-300 shadow-2xl shadow-white/10 hover:shadow-white/20 hover:scale-[1.02] active:scale-[0.98] flex items-center gap-2 overflow-hidden"
                 >
-                  Start for Free
-                  <span className="group-hover:translate-x-1 transition-transform">&rarr;</span>
+                  <span className="absolute inset-0 bg-gradient-to-r from-teal-50 to-emerald-50 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-out" />
+                  <span className="relative z-10">Start for Free</span>
+                  <span className="relative z-10 inline-flex h-5 w-5 items-center justify-center overflow-hidden">
+                    <span className="absolute transition-all duration-300 group-hover:-translate-y-full group-hover:opacity-0">&rarr;</span>
+                    <span className="absolute transition-all duration-300 translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100">&nearr;</span>
+                  </span>
                 </Link>
                 <Link
                   to="/vehicles"

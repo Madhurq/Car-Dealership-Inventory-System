@@ -33,6 +33,7 @@ describe('App', () => {
   });
 
   it('renders vehicles page at /vehicles', async () => {
+    localStorage.setItem('user', JSON.stringify({ email: 'test@test.com', role: 'ROLE_USER' }));
     renderWithRouter(<App />, { route: '/vehicles' });
     expect(await screen.findByText(/Vehicle Inventory/i)).toBeInTheDocument();
   });

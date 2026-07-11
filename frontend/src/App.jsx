@@ -8,6 +8,7 @@ import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
 import AdminPage from './pages/AdminPage';
 import AdminRoute from './components/AdminRoute';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function PageWrap({ children }) {
   return (
@@ -36,12 +37,12 @@ export default function App() {
         <Route
           path="/vehicles"
           element={
-            <>
+            <ProtectedRoute>
               <Navbar />
               <main className="pt-16">
                 <PageWrap><HomePage /></PageWrap>
               </main>
-            </>
+            </ProtectedRoute>
           }
         />
         <Route
