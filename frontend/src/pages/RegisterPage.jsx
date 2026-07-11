@@ -8,6 +8,7 @@ export default function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const { register } = useAuth();
   const navigate = useNavigate();
 
@@ -22,12 +23,15 @@ export default function RegisterPage() {
       return;
     }
     setLoading(true);
+    setError('');
     try {
       await register(email, password);
       toast.success('Account created!');
       navigate('/');
     } catch (err) {
-      toast.error(err.response?.data?.error || 'Registration failed');
+      const msg = err.response?.data?.error || 'Registration failed';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
@@ -87,6 +91,7 @@ export default function RegisterPage() {
               {loading ? 'Creating account...' : 'Create account'}
             </button>
           </form>
+          {error && <p className="text-red-500 text-sm mt-4 text-center">{error}</p>}
         </div>
 
         <p className="text-center text-sm text-gray-500 mt-6">
