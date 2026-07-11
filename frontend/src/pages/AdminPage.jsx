@@ -2,8 +2,24 @@ import { useState, useEffect, useMemo } from 'react';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
 import VehicleForm from '../components/VehicleForm';
+import { motion } from 'framer-motion';
 import { HiOutlineTag, HiOutlineExclamationCircle, HiOutlineViewGrid } from 'react-icons/hi';
 import { RiCarLine } from 'react-icons/ri';
+
+const stagger = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.08 } },
+};
+
+const cardUp = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut' } },
+};
+
+const rowSlide = {
+  hidden: { opacity: 0, x: -16 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.3, ease: 'easeOut' } },
+};
 
 export default function AdminPage() {
   const [vehicles, setVehicles] = useState([]);
@@ -85,12 +101,17 @@ export default function AdminPage() {
         <p className="text-gray-500 mt-1">Manage your vehicle inventory</p>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <motion.div
+        variants={stagger}
+        initial="hidden"
+        animate="show"
+        className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8"
+      >
         <StatCard icon={RiCarLine} label="Total Vehicles" value={stats.total} color="blue" />
-        <StatCard icon={HiOutlineTag} label="Inventory Value" value={`$${stats.value.toLocaleString()}`} color="emerald" />
+        <StatCard icon={HiOutlineTag} label="Inventory Value" value={stats.value} color="emerald" prefix="$" />
         <StatCard icon={HiOutlineExclamationCircle} label="Low Stock" value={stats.lowStock} color="amber" />
         <StatCard icon={HiOutlineViewGrid} label="Categories" value={stats.categories} color="purple" />
-      </div>
+      </motion.div>
 
       <div className="bg-white rounded-xl border border-gray-200 p-6 mb-8">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">
@@ -114,24 +135,53 @@ export default function AdminPage() {
             <p className="text-sm text-gray-400 mt-1">Add your first vehicle above.</p>
           </div>
         ) : (
-          <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            animate="show"
+            className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100"
+          >
             {vehicles.map((v) => (
-              <VehicleRow
-                key={v.id}
-                vehicle={v}
-                onEdit={() => setEditing(v)}
-                onDelete={() => handleDelete(v.id)}
-                onRestock={(qty) => handleRestock(v.id, qty)}
-              />
+              <motion.div key={v.id} variants={rowSlide}>
+                <VehicleRow
+                  vehicle={v}
+                  onEdit={() => setEditing(v)}
+                  onDelete={() => handleDelete(v.id)}
+                  onRestock={(qty) => handleRestock(v.id, qty)}
+                />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
       </div>
     </div>
   );
 }
 
-function StatCard({ icon: Icon, label, value, color }) {
+function AnimatedNumber({ value, prefix = '' }) {
+  const [display, setDisplay] = useState(0);
+
+  useEffect(() => {
+    const num = typeof value === 'number' ? value : 0;
+    if (num === 0) { setDisplay(0); return; }
+
+    const duration = 800;
+    const start = performance.now();
+
+    const step = (now) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplay(Math.round(num * eased));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+
+    requestAnimationFrame(step);
+  }, [value]);
+
+  return <>{prefix}{display.toLocaleString()}</>;
+}
+
+function StatCard({ icon: Icon, label, value, color, prefix = '' }) {
   const colors = {
     blue: 'bg-blue-50 text-blue-600',
     emerald: 'bg-emerald-50 text-emerald-600',
@@ -139,17 +189,23 @@ function StatCard({ icon: Icon, label, value, color }) {
     purple: 'bg-purple-50 text-purple-600',
   };
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow">
+    <motion.div
+      variants={cardUp}
+      whileHover={{ y: -2, boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}
+      className="bg-white rounded-xl border border-gray-200 p-5 cursor-default"
+    >
       <div className="flex items-center gap-3">
         <div className={`p-2.5 rounded-lg ${colors[color]}`}>
           <Icon className="w-5 h-5" />
         </div>
         <div>
-          <p className="text-2xl font-bold text-gray-900">{value}</p>
+          <p className="text-2xl font-bold text-gray-900">
+            <AnimatedNumber value={value} prefix={prefix} />
+          </p>
           <p className="text-sm text-gray-500">{label}</p>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

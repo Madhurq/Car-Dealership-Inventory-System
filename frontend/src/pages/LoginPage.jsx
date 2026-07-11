@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 import { HiOutlineMail, HiOutlineLockClosed } from 'react-icons/hi';
+import { motion } from 'framer-motion';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -31,7 +32,13 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="w-full max-w-md" id="login-card">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+        className="w-full max-w-md"
+        id="login-card"
+      >
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Welcome Back</h1>
           <p className="text-gray-500 mt-2">Sign in to your AutoVault account</p>
@@ -92,7 +99,7 @@ export default function LoginPage() {
             Create one
           </Link>
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 }

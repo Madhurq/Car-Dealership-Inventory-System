@@ -2,9 +2,20 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
+import { motion } from 'framer-motion';
 import { HiOutlineShoppingCart, HiOutlineTag } from 'react-icons/hi';
 import { RiCarLine, RiGasStationLine } from 'react-icons/ri';
 import SearchBar from '../components/SearchBar';
+
+const stagger = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.06 } },
+};
+
+const cardUp = {
+  hidden: { opacity: 0, y: 20, scale: 0.97 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.3, ease: 'easeOut' } },
+};
 
 export default function HomePage() {
   const [vehicles, setVehicles] = useState([]);
@@ -35,10 +46,7 @@ export default function HomePage() {
     }
   };
 
-  useEffect(() => {
-    fetchVehicles();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
+  // ponytail: single debounced effect — prevents StrictMode double-fetch popups
   useEffect(() => {
     const timeout = setTimeout(fetchVehicles, 300);
     return () => clearTimeout(timeout);
@@ -75,22 +83,33 @@ export default function HomePage() {
           <div role="status" className="w-8 h-8 border-4 border-teal-500 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : vehicles.length === 0 ? (
-        <div className="text-center py-20">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          className="text-center py-20"
+        >
           <RiCarLine className="w-16 h-16 text-gray-300 mx-auto mb-4" />
           <h2 className="text-xl font-semibold text-gray-600">No vehicles found</h2>
           <p className="text-gray-400 mt-1">Try adjusting your search filters</p>
-        </div>
+        </motion.div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          animate="show"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6"
+        >
           {vehicles.map((vehicle) => (
-            <VehicleCard
-              key={vehicle.id}
-              vehicle={vehicle}
-              onPurchase={handlePurchase}
-              purchaseLoading={purchaseLoading === vehicle.id}
-            />
+            <motion.div key={vehicle.id} variants={cardUp}>
+              <VehicleCard
+                vehicle={vehicle}
+                onPurchase={handlePurchase}
+                purchaseLoading={purchaseLoading === vehicle.id}
+              />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       )}
     </div>
   );
@@ -100,7 +119,10 @@ function VehicleCard({ vehicle, onPurchase, purchaseLoading }) {
   const outOfStock = vehicle.quantity <= 0;
 
   return (
-    <div className={`bg-white rounded-2xl border transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 ${outOfStock ? 'border-red-200 opacity-75' : 'border-gray-100'}`}>
+    <motion.div
+      whileHover={{ y: -4, boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}
+      className={`bg-white rounded-2xl border ${outOfStock ? 'border-red-200 opacity-75' : 'border-gray-100'}`}
+    >
       <div className="p-6">
         <div className="flex items-center justify-between mb-4">
           <span className="inline-flex items-center gap-1.5 text-xs font-medium text-gray-500 bg-gray-50 px-2.5 py-1 rounded-full">
@@ -131,6 +153,6 @@ function VehicleCard({ vehicle, onPurchase, purchaseLoading }) {
           {outOfStock ? 'Unavailable' : purchaseLoading ? 'Purchasing...' : 'Purchase'}
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 }

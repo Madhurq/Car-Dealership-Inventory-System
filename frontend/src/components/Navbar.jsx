@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { HiOutlineLogout, HiOutlineShieldCheck, HiOutlineLogin, HiOutlineUserAdd } from 'react-icons/hi';
 import { RiCarLine } from 'react-icons/ri';
+import { motion } from 'framer-motion';
 
 export default function Navbar() {
   const { user, logout, isAdmin } = useAuth();
@@ -13,7 +14,13 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 inset-x-0 h-16 bg-white border-b border-gray-200 z-50" id="main-nav">
+    <motion.nav
+      initial={{ y: -64 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.35, ease: 'easeOut' }}
+      className="fixed top-0 inset-x-0 h-16 bg-white/80 backdrop-blur-md border-b border-gray-200 z-50"
+      id="main-nav"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5">
           <RiCarLine className="w-8 h-8 text-teal-600" />
@@ -67,6 +74,6 @@ export default function Navbar() {
           )}
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 }
