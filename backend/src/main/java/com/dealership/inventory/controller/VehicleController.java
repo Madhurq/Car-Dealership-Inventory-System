@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,6 +68,7 @@ public class VehicleController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         vehicleService.delete(id);
         return ResponseEntity.noContent().build();
@@ -78,6 +80,7 @@ public class VehicleController {
     }
 
     @PostMapping("/{id}/restock")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<VehicleResponse> restock(@PathVariable Long id, @RequestParam int quantity) {
         return ResponseEntity.ok(toResponse(vehicleService.restock(id, quantity)));
     }
