@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.constraints.Min;
 
 @RestController
 @RequestMapping("/api/vehicles")
@@ -82,7 +83,8 @@ public class VehicleController {
 
     @PostMapping("/{id}/restock")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<VehicleResponse> restock(@PathVariable Long id, @RequestParam int quantity) {
+    public ResponseEntity<VehicleResponse> restock(@PathVariable Long id,
+                                                    @RequestParam @Min(1) int quantity) {
         return ResponseEntity.ok(toResponse(vehicleService.restock(id, quantity)));
     }
 
