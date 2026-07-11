@@ -149,9 +149,28 @@ export default function LandingPage() {
           ))}
         </div>
 
-        {/* Decorative car silhouette */}
-        <div className="absolute bottom-0 right-0 opacity-[0.02] pointer-events-none overflow-hidden">
-          <RiCarLine className="w-[600px] h-[600px] text-white -mb-20 -mr-20" />
+        {/* Tilted car card */}
+        <div className="absolute bottom-8 right-8 md:bottom-16 md:right-16 hidden lg:block pointer-events-none">
+          <motion.div
+            initial={{ opacity: 0, rotate: 12, scale: 0.8 }}
+            animate={{ opacity: 1, rotate: 12, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="relative w-72 h-48 rounded-2xl border-2 border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm p-6 shadow-2xl shadow-black/30"
+          >
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-teal-500/10 to-emerald-500/5" />
+            <RiCarLine className="relative w-16 h-16 text-teal-400/60 mb-4" />
+            <div className="relative space-y-2">
+              <div className="h-2 w-3/4 bg-white/10 rounded-full" />
+              <div className="h-2 w-1/2 bg-white/10 rounded-full" />
+            </div>
+            <div className="absolute bottom-4 right-4 flex items-center gap-1.5">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+              </span>
+              <span className="text-[10px] text-emerald-400/80 font-medium tracking-wide uppercase">Live</span>
+            </div>
+          </motion.div>
         </div>
 
         {/* Content */}
