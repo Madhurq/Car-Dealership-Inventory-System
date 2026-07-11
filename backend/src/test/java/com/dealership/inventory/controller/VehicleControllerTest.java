@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -15,17 +16,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.dealership.inventory.dto.VehicleRequest;
 import com.dealership.inventory.exception.ResourceNotFoundException;
 import com.dealership.inventory.model.Vehicle;
+import com.dealership.inventory.service.JwtService;
 import com.dealership.inventory.service.VehicleService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.http.MediaType;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(VehicleController.class)
+@WithMockUser
 class VehicleControllerTest {
 
     @Autowired
@@ -36,6 +40,9 @@ class VehicleControllerTest {
 
     @MockBean
     private VehicleService vehicleService;
+
+    @MockBean
+    private JwtService jwtService;
 
     @Test
     void findAll_ShouldReturnList() throws Exception {
@@ -81,6 +88,7 @@ class VehicleControllerTest {
         when(vehicleService.create(any(VehicleRequest.class))).thenReturn(vehicle);
 
         mockMvc.perform(post("/api/vehicles")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
@@ -93,6 +101,7 @@ class VehicleControllerTest {
         var request = new VehicleRequest("", "", "", -1.0, -1);
 
         mockMvc.perform(post("/api/vehicles")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
@@ -106,6 +115,7 @@ class VehicleControllerTest {
         when(vehicleService.update(eq(1L), any(VehicleRequest.class))).thenReturn(vehicle);
 
         mockMvc.perform(put("/api/vehicles/1")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
@@ -114,7 +124,7 @@ class VehicleControllerTest {
 
     @Test
     void delete_ShouldReturn204() throws Exception {
-        mockMvc.perform(delete("/api/vehicles/1"))
+        mockMvc.perform(delete("/api/vehicles/1").with(csrf()))
                 .andExpect(status().isNoContent());
 
         verify(vehicleService).delete(1L);
@@ -126,7 +136,7 @@ class VehicleControllerTest {
         vehicle.setId(1L);
         when(vehicleService.purchase(1L)).thenReturn(vehicle);
 
-        mockMvc.perform(post("/api/vehicles/1/purchase"))
+        mockMvc.perform(post("/api/vehicles/1/purchase").with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.quantity").value(9));
     }
@@ -135,7 +145,7 @@ class VehicleControllerTest {
     void purchase_ShouldReturn409_WhenOutOfStock() throws Exception {
         when(vehicleService.purchase(1L)).thenThrow(new IllegalStateException("out of stock"));
 
-        mockMvc.perform(post("/api/vehicles/1/purchase"))
+        mockMvc.perform(post("/api/vehicles/1/purchase").with(csrf()))
                 .andExpect(status().isConflict());
     }
 
@@ -146,6 +156,7 @@ class VehicleControllerTest {
         when(vehicleService.restock(1L, 5)).thenReturn(vehicle);
 
         mockMvc.perform(post("/api/vehicles/1/restock")
+                        .with(csrf())
                         .param("quantity", "5"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.quantity").value(15));

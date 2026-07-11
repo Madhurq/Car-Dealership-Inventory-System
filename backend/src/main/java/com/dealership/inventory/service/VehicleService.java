@@ -20,6 +20,11 @@ public class VehicleService {
         return vehicleRepository.findAll();
     }
 
+    public List<Vehicle> search(String make, String model, String category,
+                                 Double minPrice, Double maxPrice) {
+        return vehicleRepository.searchVehicles(make, model, category, minPrice, maxPrice);
+    }
+
     public Vehicle findById(Long id) {
         return vehicleRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found with id: " + id));

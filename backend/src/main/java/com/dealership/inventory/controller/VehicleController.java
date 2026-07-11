@@ -38,6 +38,18 @@ public class VehicleController {
         return ResponseEntity.ok(vehicles);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<VehicleResponse>> search(
+            @RequestParam(required = false) String make,
+            @RequestParam(required = false) String model,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice) {
+        var vehicles = vehicleService.search(make, model, category, minPrice, maxPrice)
+                .stream().map(this::toResponse).toList();
+        return ResponseEntity.ok(vehicles);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<VehicleResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(toResponse(vehicleService.findById(id)));
