@@ -1,12 +1,10 @@
 package com.dealership.inventory.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,21 +16,19 @@ public class Vehicle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Make cannot be blank")
+    @Column(nullable = false)
     private String make;
 
-    @NotBlank(message = "Model cannot be blank")
+    @Column(nullable = false)
     private String model;
 
-    @NotBlank(message = "Category cannot be blank")
+    @Column(nullable = false)
     private String category;
 
-    @NotNull(message = "Price is required")
-    @Min(value = 0, message = "Price cannot be negative")
+    @Column(nullable = false)
     private Double price;
 
-    @NotNull(message = "Quantity is required")
-    @Min(value = 0, message = "Quantity cannot be negative")
+    @Column(nullable = false)
     private Integer quantity;
 
     public Vehicle() {
