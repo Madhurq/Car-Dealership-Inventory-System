@@ -1,5 +1,6 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
@@ -20,11 +21,18 @@ function PageWrap({ children }) {
   );
 }
 
+function LandingRedirect() {
+  const { user, isAdmin, loading } = useAuth();
+  if (loading) return null;
+  if (user) return <Navigate to={isAdmin ? '/admin' : '/vehicles'} replace />;
+  return <LandingPage />;
+}
+
 export default function App() {
   return (
     <div className="min-h-screen bg-slate-50">
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<LandingRedirect />} />
         <Route
           path="/vehicles"
           element={

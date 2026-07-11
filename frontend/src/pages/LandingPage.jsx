@@ -8,14 +8,14 @@ import {
   HiOutlineCog,
   HiOutlineStar,
 } from 'react-icons/hi';
-import { RiCarLine } from 'react-icons/ri';
+import { RiCarLine, RiGasStationLine, RiSpeedLine, RiVipCrownLine, RiTruckLine } from 'react-icons/ri';
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 30 },
   show: (i = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, delay: i * 0.1, ease: 'easeOut' },
+    transition: { duration: 0.6, delay: i * 0.1, ease: [0.25, 0.46, 0.45, 0.94] },
   }),
 };
 
@@ -25,42 +25,53 @@ const stagger = {
 };
 
 const cardUp = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } },
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
 };
+
+const particles = Array.from({ length: 30 }, (_, i) => ({
+  id: i,
+  x: ((i * 37 + 7) % 100),
+  y: 30 + ((i * 19 + 11) % 70),
+  size: 1.5 + (i % 4) * 0.5,
+  delay: (i * 0.35) % 5,
+  duration: 5 + (i % 7),
+}));
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white overflow-x-hidden">
       {/* Nav */}
-      <nav className="fixed top-0 inset-x-0 bg-white/80 backdrop-blur-md border-b border-gray-100 z-50">
+      <nav className="fixed top-0 inset-x-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5">
-            <RiCarLine className="w-8 h-8 text-teal-600" />
-            <span className="text-xl font-bold text-gray-900 tracking-tight">AutoVault</span>
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center shadow-lg shadow-teal-500/25">
+              <RiCarLine className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-xl font-bold text-white tracking-tight">AutoVault</span>
           </Link>
           <div className="flex items-center gap-2">
             <a
               href="#features"
-              className="hidden sm:inline px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition"
+              className="hidden sm:inline px-4 py-2 text-sm font-medium text-white/70 hover:text-white transition-colors"
             >
               Features
             </a>
             <Link
               to="/vehicles"
-              className="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition"
+              className="px-4 py-2 text-sm font-medium text-white/70 hover:text-white transition-colors"
             >
               Inventory
             </Link>
             <Link
               to="/login"
-              className="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition"
+              className="px-4 py-2 text-sm font-medium text-white/70 hover:text-white transition-colors"
             >
               Sign In
             </Link>
             <Link
               to="/register"
-              className="px-4 py-2 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg transition"
+              className="px-5 py-2 text-sm font-semibold text-slate-900 bg-white hover:bg-gray-100 rounded-full transition-all shadow-lg shadow-white/10"
             >
               Get Started
             </Link>
@@ -69,53 +80,178 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero */}
-      <section className="pt-16 bg-gradient-to-br from-teal-600 via-teal-700 to-blue-800 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-white rounded-full blur-3xl" />
-          <div className="absolute bottom-10 right-20 w-96 h-96 bg-teal-300 rounded-full blur-3xl" />
-        </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-36 relative z-10">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950">
+        {/* Grid pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+            backgroundSize: '64px 64px',
+          }}
+        />
+
+        {/* Animated gradient blobs */}
+        <motion.div
+          className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full bg-gradient-to-br from-teal-500/25 to-emerald-500/10 blur-[128px]"
+          animate={{
+            scale: [1, 1.15, 1],
+            opacity: [0.25, 0.4, 0.25],
+            x: [0, 40, 0],
+            y: [0, -30, 0],
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className="absolute -bottom-32 -left-32 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/10 blur-[128px]"
+          animate={{
+            scale: [1.1, 1, 1.1],
+            opacity: [0.2, 0.35, 0.2],
+            x: [0, -30, 0],
+            y: [0, 40, 0],
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+        />
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-teal-600/5 blur-[160px]"
+          animate={{ scale: [1, 1.08, 1], opacity: [0.05, 0.1, 0.05] }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+        />
+
+        {/* Floating particles */}
+        {particles.map((p) => (
           <motion.div
-            initial="hidden"
-            animate="show"
-            variants={fadeUp}
-            className="max-w-3xl"
+            key={p.id}
+            className="absolute rounded-full bg-white"
+            style={{
+              width: p.size,
+              height: p.size,
+              left: `${p.x}%`,
+              top: `${p.y}%`,
+            }}
+            animate={{
+              y: [-10, -800],
+              opacity: [0, 0.5, 0.5, 0],
+              x: [0, (p.id % 2 === 0 ? 30 : -30)],
+            }}
+            transition={{
+              duration: p.duration,
+              repeat: Infinity,
+              delay: p.delay,
+              ease: 'linear',
+            }}
+          />
+        ))}
+
+        {/* Decorative car silhouette */}
+        <div className="absolute bottom-0 right-0 opacity-[0.02] pointer-events-none">
+          <RiCarLine className="w-[600px] h-[600px] text-white -mb-20 -mr-20" />
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 text-center max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-full text-sm text-teal-100 mb-6 border border-white/10">
-              <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-              Trusted by 500+ dealerships
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight">
-              Smart Car Dealership
-              <span className="block mt-1 bg-gradient-to-r from-teal-200 to-blue-200 bg-clip-text text-transparent">
-                Inventory Management
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 bg-white/5 backdrop-blur-md rounded-full text-sm text-white/80 mb-8 border border-white/10">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400" />
               </span>
-            </h1>
-            <p className="mt-6 text-lg md:text-xl text-teal-100/90 max-w-2xl leading-relaxed">
-              Streamline your operations with real-time inventory tracking,
-              smart search, and powerful analytics. Built for modern dealerships.
-            </p>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <Link
-                to="/register"
-                className="group px-8 py-4 text-base font-semibold text-teal-700 bg-white hover:bg-gray-50 rounded-xl transition-all shadow-xl shadow-black/10 flex items-center gap-2"
-              >
-                Get Started Free
-                <span className="group-hover:translate-x-0.5 transition-transform">&rarr;</span>
-              </Link>
-              <Link
-                to="/vehicles"
-                className="px-8 py-4 text-base font-semibold text-white border-2 border-white/25 hover:border-white/50 hover:bg-white/10 rounded-xl transition-all"
-              >
-                View Inventory
-              </Link>
+              Trusted by 500+ dealerships worldwide
             </div>
           </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.92] tracking-tight"
+          >
+            Smart Car Dealership
+            <span className="block mt-2 bg-gradient-to-r from-teal-300 via-emerald-300 to-cyan-300 bg-clip-text text-transparent">
+              Inventory Management
+            </span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="mt-8 text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed"
+          >
+            Streamline your operations with real-time inventory tracking,
+            smart search, and powerful analytics. Built for modern dealerships.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="mt-12 flex flex-wrap justify-center gap-5"
+          >
+            <Link
+              to="/register"
+              className="group relative px-8 py-4 text-base font-semibold text-slate-900 bg-white rounded-2xl transition-all duration-300 shadow-2xl shadow-teal-500/20 hover:shadow-teal-500/30 hover:scale-[1.02] active:scale-[0.98] flex items-center gap-2.5 overflow-hidden"
+            >
+              <span className="relative z-10">Get Started Free</span>
+              <span className="relative z-10 group-hover:translate-x-1 transition-transform">&rarr;</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-teal-50 to-emerald-50 opacity-0 group-hover:opacity-100 transition-opacity" />
+            </Link>
+            <Link
+              to="/vehicles"
+              className="px-8 py-4 text-base font-semibold text-white border border-white/15 hover:border-white/30 hover:bg-white/5 rounded-2xl transition-all duration-300 backdrop-blur-sm"
+            >
+              View Inventory
+            </Link>
+          </motion.div>
         </div>
-        <div className="h-20 bg-white relative">
-          <svg viewBox="0 0 1440 80" fill="none" preserveAspectRatio="none" className="absolute bottom-0 w-full h-full">
-            <path d="M0,40 C480,80 960,0 1440,40 L1440,80 L0,80 Z" fill="white" />
-          </svg>
+
+        {/* Scroll indicator */}
+        <motion.div
+          className="absolute bottom-10 left-1/2 -translate-x-1/2"
+          animate={{ y: [0, 12, 0] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <div className="w-6 h-10 border-2 border-white/20 rounded-full flex justify-center pt-2">
+            <motion.div
+              className="w-1.5 h-1.5 bg-white/60 rounded-full"
+              animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+            />
+          </div>
+        </motion.div>
+
+        {/* Bottom fade */}
+        <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-white to-transparent" />
+      </section>
+
+      {/* Trusted By */}
+      <section className="relative -mt-16 z-10 pb-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="bg-white rounded-3xl shadow-2xl shadow-gray-200/50 border border-gray-100 p-8"
+          >
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              {[
+                { value: '500+', label: 'Dealerships', color: 'text-teal-600' },
+                { value: '10K+', label: 'Vehicles Tracked', color: 'text-blue-600' },
+                { value: '99.9%', label: 'Uptime', color: 'text-emerald-600' },
+                { value: '24/7', label: 'Support', color: 'text-purple-600' },
+              ].map((stat) => (
+                <div key={stat.label} className="text-center">
+                  <p className={`text-3xl md:text-4xl font-bold ${stat.color}`}>{stat.value}</p>
+                  <p className="mt-1 text-sm text-gray-500 font-medium">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -184,32 +320,55 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+      {/* Showcase */}
+      <section className="py-20 md:py-28 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true }}
-            variants={stagger}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12"
+            viewport={{ once: true, margin: '-100px' }}
+            variants={fadeUp}
+            className="text-center max-w-2xl mx-auto mb-16"
           >
-            <motion.div variants={cardUp} className="text-center">
-              <p className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-teal-600 to-teal-700 bg-clip-text text-transparent">500+</p>
-              <p className="mt-2 text-sm font-medium text-gray-500 uppercase tracking-wide">Dealerships</p>
-            </motion.div>
-            <motion.div variants={cardUp} className="text-center">
-              <p className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-blue-600 to-blue-700 bg-clip-text text-transparent">10K+</p>
-              <p className="mt-2 text-sm font-medium text-gray-500 uppercase tracking-wide">Vehicles Tracked</p>
-            </motion.div>
-            <motion.div variants={cardUp} className="text-center">
-              <p className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-emerald-600 to-emerald-700 bg-clip-text text-transparent">99.9%</p>
-              <p className="mt-2 text-sm font-medium text-gray-500 uppercase tracking-wide">Uptime</p>
-            </motion.div>
-            <motion.div variants={cardUp} className="text-center">
-              <p className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-purple-600 to-purple-700 bg-clip-text text-transparent">24/7</p>
-              <p className="mt-2 text-sm font-medium text-gray-500 uppercase tracking-wide">Support</p>
-            </motion.div>
+            <span className="text-sm font-semibold text-teal-600 tracking-wide uppercase">Categories</span>
+            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
+              Featured Categories
+            </h2>
+            <p className="mt-4 text-lg text-gray-500 leading-relaxed">
+              Browse our extensive collection across every category.
+            </p>
+          </motion.div>
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-50px' }}
+            variants={stagger}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          >
+            <ShowcaseCard
+              icon={RiSpeedLine}
+              title="Sports Cars"
+              count="120+ Models"
+              description="High-performance machines built for speed and precision."
+              gradient="from-red-500 via-orange-500 to-amber-500"
+              delay={0}
+            />
+            <ShowcaseCard
+              icon={RiVipCrownLine}
+              title="Luxury Sedans"
+              count="85+ Models"
+              description="Premium comfort meets cutting-edge technology."
+              gradient="from-blue-600 via-indigo-600 to-purple-600"
+              delay={0.1}
+            />
+            <ShowcaseCard
+              icon={RiTruckLine}
+              title="SUVs & Trucks"
+              count="200+ Models"
+              description="Power and versatility for every adventure."
+              gradient="from-teal-500 via-emerald-500 to-green-500"
+              delay={0.2}
+            />
           </motion.div>
         </div>
       </section>
@@ -222,30 +381,42 @@ export default function LandingPage() {
             whileInView="show"
             viewport={{ once: true }}
             variants={fadeUp}
-            className="relative bg-gradient-to-br from-teal-600 via-teal-700 to-blue-800 rounded-3xl p-12 md:p-16 text-center overflow-hidden"
+            className="relative bg-slate-950 rounded-[2rem] p-12 md:p-20 text-center overflow-hidden"
           >
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute -top-20 -right-20 w-80 h-80 bg-white rounded-full blur-3xl" />
-              <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-teal-300 rounded-full blur-3xl" />
+            {/* CTA background effects */}
+            <div className="absolute inset-0">
+              <div className="absolute top-0 left-1/4 w-96 h-96 bg-teal-500/10 rounded-full blur-[128px]" />
+              <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[128px]" />
             </div>
+            <div
+              className="absolute inset-0 opacity-[0.03]"
+              style={{
+                backgroundImage:
+                  'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+                backgroundSize: '48px 48px',
+              }}
+            />
             <div className="relative z-10">
-              <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
-                Ready to transform your inventory?
+              <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight leading-tight">
+                Ready to transform your
+                <span className="block bg-gradient-to-r from-teal-300 to-emerald-300 bg-clip-text text-transparent">
+                  inventory?
+                </span>
               </h2>
-              <p className="mt-4 text-lg text-teal-100/80 max-w-xl mx-auto">
-                Join hundreds of dealerships using AutoVault to streamline their operations. Free to start.
+              <p className="mt-6 text-lg text-slate-400 max-w-xl mx-auto leading-relaxed">
+                Join hundreds of dealerships using AutoVault to streamline their operations. Free to start, powerful to scale.
               </p>
-              <div className="mt-10 flex flex-wrap justify-center gap-4">
+              <div className="mt-10 flex flex-wrap justify-center gap-5">
                 <Link
                   to="/register"
-                  className="px-8 py-4 text-base font-semibold text-teal-700 bg-white hover:bg-gray-50 rounded-xl transition-all shadow-xl flex items-center gap-2"
+                  className="group px-8 py-4 text-base font-semibold text-slate-900 bg-white hover:bg-gray-100 rounded-2xl transition-all duration-300 shadow-2xl shadow-white/10 hover:shadow-white/20 hover:scale-[1.02] active:scale-[0.98] flex items-center gap-2"
                 >
                   Start for Free
-                  <span>&rarr;</span>
+                  <span className="group-hover:translate-x-1 transition-transform">&rarr;</span>
                 </Link>
                 <Link
                   to="/vehicles"
-                  className="px-8 py-4 text-base font-semibold text-white border-2 border-white/25 hover:border-white/50 hover:bg-white/10 rounded-xl transition-all"
+                  className="px-8 py-4 text-base font-semibold text-white border border-white/15 hover:border-white/30 hover:bg-white/5 rounded-2xl transition-all duration-300"
                 >
                   Browse Inventory
                 </Link>
@@ -257,15 +428,17 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="border-t border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2.5">
-            <RiCarLine className="w-6 h-6 text-teal-600" />
-            <span className="font-semibold text-gray-900">AutoVault</span>
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-teal-500 to-emerald-500 flex items-center justify-center">
+              <RiCarLine className="w-4 h-4 text-white" />
+            </div>
+            <span className="font-bold text-gray-900 tracking-tight">AutoVault</span>
           </div>
-          <div className="flex items-center gap-6 text-sm text-gray-500">
-            <Link to="/vehicles" className="hover:text-gray-900 transition">Inventory</Link>
-            <Link to="/login" className="hover:text-gray-900 transition">Sign In</Link>
-            <Link to="/register" className="hover:text-gray-900 transition">Register</Link>
+          <div className="flex items-center gap-8 text-sm text-gray-500">
+            <Link to="/vehicles" className="hover:text-gray-900 transition-colors">Inventory</Link>
+            <Link to="/login" className="hover:text-gray-900 transition-colors">Sign In</Link>
+            <Link to="/register" className="hover:text-gray-900 transition-colors">Register</Link>
           </div>
           <p className="text-sm text-gray-400">&copy; {new Date().getFullYear()} AutoVault. All rights reserved.</p>
         </div>
@@ -286,14 +459,49 @@ function FeatureCard({ icon: Icon, title, description, color }) {
   return (
     <motion.div
       variants={cardUp}
-      whileHover={{ y: -4, transition: { duration: 0.2 } }}
-      className="group p-7 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-xl hover:border-gray-200 transition-all duration-300"
+      whileHover={{ y: -6, transition: { duration: 0.25 } }}
+      className="group p-7 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-gray-200/50 hover:border-gray-200 transition-all duration-300"
     >
       <div className={`w-12 h-12 rounded-xl flex items-center justify-center ring-1 ${colors[color]}`}>
         <Icon className="w-6 h-6" />
       </div>
       <h3 className="mt-5 text-lg font-semibold text-gray-900 group-hover:text-teal-700 transition-colors">{title}</h3>
       <p className="mt-2.5 text-gray-500 leading-relaxed text-sm">{description}</p>
+    </motion.div>
+  );
+}
+
+function ShowcaseCard({ icon: Icon, title, count, description, gradient, delay }) {
+  return (
+    <motion.div
+      variants={cardUp}
+      whileHover={{ y: -8, scale: 1.02, transition: { duration: 0.3 } }}
+      className={`group relative rounded-3xl p-8 md:p-10 text-white overflow-hidden cursor-pointer min-h-[280px] flex flex-col justify-end bg-gradient-to-br ${gradient} shadow-lg`}
+    >
+      {/* Background pattern */}
+      <div
+        className="absolute inset-0 opacity-10"
+        style={{
+          backgroundImage:
+            'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0)',
+          backgroundSize: '24px 24px',
+        }}
+      />
+      {/* Glow on hover */}
+      <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors duration-500" />
+      {/* Icon */}
+      <div className="absolute top-8 right-8 opacity-20 group-hover:opacity-30 transition-opacity">
+        <Icon className="w-24 h-24" />
+      </div>
+      {/* Content */}
+      <div className="relative z-10">
+        <p className="text-sm font-medium text-white/70 mb-1">{count}</p>
+        <h3 className="text-2xl font-bold">{title}</h3>
+        <p className="mt-2 text-white/80 text-sm leading-relaxed">{description}</p>
+        <div className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-white/90 group-hover:text-white group-hover:gap-3 transition-all">
+          Browse <span>&rarr;</span>
+        </div>
+      </div>
     </motion.div>
   );
 }

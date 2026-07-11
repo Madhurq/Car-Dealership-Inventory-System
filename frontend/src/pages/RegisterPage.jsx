@@ -28,7 +28,7 @@ export default function RegisterPage() {
     try {
       await register(email, password);
       toast.success('Account created!');
-      navigate('/');
+      navigate('/vehicles');
     } catch (err) {
       const msg = err.response?.data?.error || 'Registration failed';
       setError(msg);

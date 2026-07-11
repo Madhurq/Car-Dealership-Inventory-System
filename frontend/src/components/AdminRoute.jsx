@@ -17,7 +17,7 @@ export default function AdminRoute({ children }) {
   }
 
   if (!isAdmin) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/vehicles" replace />;
   }
 
   return children;

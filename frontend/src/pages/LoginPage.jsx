@@ -20,9 +20,9 @@ export default function LoginPage() {
     }
     setLoading(true);
     try {
-      await login(email, password);
+      const result = await login(email, password);
       toast.success('Welcome back!');
-      navigate('/');
+      navigate(result.role === 'ROLE_ADMIN' ? '/admin' : '/vehicles');
     } catch (err) {
       toast.error(err.response?.data?.error || 'Invalid credentials');
     } finally {
