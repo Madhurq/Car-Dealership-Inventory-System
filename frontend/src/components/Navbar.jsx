@@ -18,35 +18,41 @@ export default function Navbar() {
       initial={{ y: -64 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.35, ease: 'easeOut' }}
-      className="fixed top-0 inset-x-0 h-16 bg-white/80 backdrop-blur-md border-b border-gray-200 z-50"
+      className="fixed top-0 inset-x-0 h-16 bg-white/80 backdrop-blur-md border-b border-gray-100 z-50"
       id="main-nav"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5">
-          <RiCarLine className="w-8 h-8 text-teal-600" />
-          <span className="text-xl font-bold text-gray-900 tracking-tight">AutoVault</span>
+          <RiCarLine className="w-7 h-7 text-teal-600" />
+          <span className="text-lg font-bold text-gray-900 tracking-tight">AutoVault</span>
         </Link>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
+          <Link
+            to="/vehicles"
+            className="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition"
+          >
+            Inventory
+          </Link>
           {user ? (
             <>
-              <span className="text-sm text-gray-500 hidden sm:flex items-center gap-1.5 mr-2">
-                {isAdmin && <HiOutlineShieldCheck className="w-4 h-4 text-teal-600" />}
-                {user.email}
-              </span>
               {isAdmin && (
                 <Link
                   to="/admin"
                   id="admin-link"
-                  className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition"
+                  className="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition"
                 >
-                  Admin
+                  Dashboard
                 </Link>
               )}
+              <span className="text-sm text-gray-400 hidden sm:flex items-center gap-1.5 mx-1">
+                {isAdmin && <HiOutlineShieldCheck className="w-4 h-4 text-teal-600" />}
+                {user.email}
+              </span>
               <button
                 onClick={handleLogout}
                 id="logout-btn"
-                className="px-3 py-1.5 text-sm font-medium text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition flex items-center gap-1.5"
+                className="px-3 py-2 text-sm font-medium text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition flex items-center gap-1.5"
               >
                 <HiOutlineLogout className="w-4 h-4" />
                 <span className="hidden sm:inline">Logout</span>
@@ -57,7 +63,7 @@ export default function Navbar() {
               <Link
                 to="/login"
                 id="login-link"
-                className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition flex items-center gap-1.5"
+                className="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition flex items-center gap-1.5"
               >
                 <HiOutlineLogin className="w-4 h-4" />
                 Login
@@ -65,7 +71,7 @@ export default function Navbar() {
               <Link
                 to="/register"
                 id="register-link"
-                className="px-4 py-1.5 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg transition flex items-center gap-1.5"
+                className="px-4 py-2 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-lg transition flex items-center gap-1.5"
               >
                 <HiOutlineUserAdd className="w-4 h-4" />
                 Register

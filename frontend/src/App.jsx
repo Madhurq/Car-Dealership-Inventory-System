@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar from './components/Navbar';
+import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
@@ -21,23 +22,51 @@ function PageWrap({ children }) {
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-[#f8f7f4]">
-      <Navbar />
-      <main className="pt-16">
-        <Routes>
-          <Route path="/" element={<PageWrap><HomePage /></PageWrap>} />
-          <Route path="/login" element={<PageWrap><LoginPage /></PageWrap>} />
-          <Route path="/register" element={<PageWrap><RegisterPage /></PageWrap>} />
-          <Route
-            path="/admin"
-            element={
-              <AdminRoute>
-                <PageWrap><AdminPage /></PageWrap>
-              </AdminRoute>
-            }
-          />
-        </Routes>
-      </main>
+    <div className="min-h-screen bg-slate-50">
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route
+          path="/vehicles"
+          element={
+            <>
+              <Navbar />
+              <main className="pt-16">
+                <PageWrap><HomePage /></PageWrap>
+              </main>
+            </>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <>
+              <Navbar />
+              <main className="pt-16">
+                <PageWrap><LoginPage /></PageWrap>
+              </main>
+            </>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <>
+              <Navbar />
+              <main className="pt-16">
+                <PageWrap><RegisterPage /></PageWrap>
+              </main>
+            </>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminPage />
+            </AdminRoute>
+          }
+        />
+      </Routes>
     </div>
   );
 }

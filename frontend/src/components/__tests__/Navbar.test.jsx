@@ -51,15 +51,14 @@ describe('Navbar', () => {
     expect(screen.getByText('user@test.com')).toBeInTheDocument();
   });
 
-  it('shows admin link for admin users', () => {
+  it('shows dashboard link for admin users', () => {
     renderNav({ user: { email: 'admin@test.com', role: 'ROLE_ADMIN' } });
-    const link = screen.getByText(/^Admin$/, { selector: 'a' });
-    expect(link).toHaveAttribute('href', '/admin');
+    expect(screen.getByText('Dashboard')).toHaveAttribute('href', '/admin');
   });
 
-  it('hides admin link for regular users', () => {
+  it('hides dashboard link for regular users', () => {
     renderNav({ user: { email: 'user@test.com', role: 'ROLE_USER' } });
-    expect(screen.queryByText(/^Admin$/, { selector: 'a' })).not.toBeInTheDocument();
+    expect(screen.queryByText('Dashboard')).not.toBeInTheDocument();
   });
 
   it('shows logout button when logged in', () => {

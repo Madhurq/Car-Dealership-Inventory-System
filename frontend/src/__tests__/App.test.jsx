@@ -17,23 +17,23 @@ function renderWithRouter(ui, { route = '/' } = {}) {
 }
 
 describe('App', () => {
-  it('renders navbar with AutoVault brand', async () => {
+  it('renders landing page with AutoVault brand', async () => {
     renderWithRouter(<App />);
-    expect(await screen.findByText(/AutoVault/i)).toBeInTheDocument();
+    expect(await screen.findByRole('link', { name: /AutoVault/i })).toBeInTheDocument();
   });
 
-  it('renders login link when not authenticated', async () => {
+  it('renders landing page hero heading', async () => {
     renderWithRouter(<App />);
-    expect(await screen.findByText(/Login/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Inventory Management/i)).toBeInTheDocument();
   });
 
-  it('renders register link when not authenticated', async () => {
+  it('renders Get Started CTA on landing page', async () => {
     renderWithRouter(<App />);
-    expect(await screen.findByText(/Register/i)).toBeInTheDocument();
+    expect(await screen.findByRole('link', { name: /^Get Started$/i })).toBeInTheDocument();
   });
 
-  it('renders the home page by default', async () => {
-    renderWithRouter(<App />);
+  it('renders vehicles page at /vehicles', async () => {
+    renderWithRouter(<App />, { route: '/vehicles' });
     expect(await screen.findByText(/Vehicle Inventory/i)).toBeInTheDocument();
   });
 });

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { AuthProvider } from '../../context/AuthContext';
 import AdminPage from '../AdminPage';
@@ -30,29 +30,36 @@ describe('AdminPage', () => {
     vi.clearAllMocks();
   });
 
-  it('renders admin heading', async () => {
+  it('renders dashboard heading', async () => {
     api.get.mockResolvedValue({ data: [] });
     renderPage();
-    expect(await screen.findByText(/Admin Panel/i)).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: /Dashboard/i })).toBeInTheDocument();
   });
 
-  it('renders add vehicle form', async () => {
+  it('renders add vehicle button', async () => {
     api.get.mockResolvedValue({ data: [] });
     renderPage();
-    expect(await screen.findByText(/Add Vehicle/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Make/i)).toBeInTheDocument();
+    expect(await screen.findByRole('button', { name: /Add Vehicle/i })).toBeInTheDocument();
+  });
+
+  it('shows vehicle form after clicking Add Vehicle', async () => {
+    api.get.mockResolvedValue({ data: [] });
+    renderPage();
+    fireEvent.click(await screen.findByRole('button', { name: /Add Vehicle/i }));
+    expect(await screen.findByLabelText(/Make/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Model/i)).toBeInTheDocument();
   });
 
-  it('displays vehicles in the list', async () => {
+  it('displays vehicles in the table', async () => {
     api.get.mockResolvedValue({
       data: [
         { id: 1, make: 'Toyota', model: 'Camry', category: 'Sedan', price: 25000, quantity: 10 },
       ],
     });
     renderPage();
-    expect(await screen.findByText('Toyota')).toBeInTheDocument();
-    expect(screen.getByText('Camry')).toBeInTheDocument();
+    const table = await screen.findByRole('table');
+    expect(within(table).getByText(/Toyota/)).toBeInTheDocument();
+    expect(within(table).getByText(/Camry/)).toBeInTheDocument();
   });
 
   it('shows edit and delete buttons for each vehicle', async () => {
@@ -62,9 +69,9 @@ describe('AdminPage', () => {
       ],
     });
     renderPage();
-    await screen.findByText('Toyota');
-    expect(screen.getByText(/Edit/i)).toBeInTheDocument();
-    expect(screen.getByText(/Delete/i)).toBeInTheDocument();
+    const table = await screen.findByRole('table');
+    expect(within(table).getByRole('button', { name: /Edit/i })).toBeInTheDocument();
+    expect(within(table).getByRole('button', { name: /Delete/i })).toBeInTheDocument();
   });
 
   it('shows restock input for each vehicle', async () => {
@@ -74,8 +81,8 @@ describe('AdminPage', () => {
       ],
     });
     renderPage();
-    await screen.findByText('Toyota');
-    expect(screen.getByText(/Restock/i)).toBeInTheDocument();
+    const table = await screen.findByRole('table');
+    expect(within(table).getByRole('button', { name: /Restock/i })).toBeInTheDocument();
   });
 
   it('submits add vehicle form', async () => {
@@ -84,15 +91,17 @@ describe('AdminPage', () => {
       data: { id: 2, make: 'Honda', model: 'Civic', category: 'Sedan', price: 22000, quantity: 5 },
     });
     renderPage();
-    await screen.findByText(/Add Vehicle/i);
+    fireEvent.click(await screen.findByRole('button', { name: /Add Vehicle/i }));
+    await screen.findByLabelText(/Make/i);
 
-    const { fireEvent: fe } = await import('@testing-library/react');
-    fe.change(screen.getByLabelText(/Make/i), { target: { value: 'Honda' } });
-    fe.change(screen.getByLabelText(/Model/i), { target: { value: 'Civic' } });
-    fe.change(screen.getByLabelText(/Category/i), { target: { value: 'Sedan' } });
-    fe.change(screen.getByLabelText(/Price/i), { target: { value: '22000' } });
-    fe.change(screen.getByLabelText(/Quantity/i), { target: { value: '5' } });
-    fe.click(screen.getByRole('button', { name: /Add Vehicle/i }));
+    fireEvent.change(screen.getByLabelText(/Make/i), { target: { value: 'Honda' } });
+    fireEvent.change(screen.getByLabelText(/Model/i), { target: { value: 'Civic' } });
+    fireEvent.change(screen.getByLabelText(/Category/i), { target: { value: 'Sedan' } });
+    fireEvent.change(screen.getByLabelText(/Price/i), { target: { value: '22000' } });
+    fireEvent.change(screen.getByLabelText(/Quantity/i), { target: { value: '5' } });
+
+    const submitBtns = screen.getAllByRole('button', { name: /Add Vehicle/i });
+    fireEvent.click(submitBtns[submitBtns.length - 1]);
 
     await waitFor(() => {
       expect(api.post).toHaveBeenCalledWith('/vehicles', {
