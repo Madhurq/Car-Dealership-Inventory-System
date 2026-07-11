@@ -63,4 +63,10 @@ class RegisterRequestTest {
         var request = new RegisterRequest("new@example.com", null);
         assertFalse(validator.validate(request).isEmpty());
     }
+
+    @Test
+    void registerRequestWithShortPassword_ShouldFailValidation() {
+        var request = new RegisterRequest("new@example.com", "abc");
+        assertFalse(validator.validate(request).isEmpty());
+    }
 }
