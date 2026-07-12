@@ -3,7 +3,7 @@
 A full-stack inventory management system for car dealerships. Browse, search, purchase vehicles, and manage inventory with an admin panel.
 
 **Live:** [Frontend (Vercel)](https://car-dealership-inventory-system-sigma.vercel.app/) · [Backend API (Render)](https://car-dealership-inventory-system-arxh.onrender.com)
-
+(My AWS is on hold!)
 ## Tech Stack
 
 **Backend:** Java 17, Spring Boot 3.3.5, Spring Data JPA, H2 (dev) / PostgreSQL (prod), JWT auth, Maven
@@ -75,6 +75,9 @@ cd backend && mvn test
 # Frontend (44 tests)
 cd frontend && npm test
 ```
+
+## Demo Video
+[Video](https://drive.google.com/file/d/16W-f7wGUty0URus_mCtR-FpeiOrX9Cjx/view?usp=drive_link)
 
 ## Screenshots
 
