@@ -1,11 +1,11 @@
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL} # Render will inject this
-    username: ${SPRING_DATASOURCE_USERNAME} # Render will inject this
-    password: ${SPRING_DATASOURCE_PASSWORD} # Render will inject this
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: create-drop # ponytail: create for first deploy, switch to validate once schema exists
+      ddl-auto: update
     show-sql: false
 
 app:
