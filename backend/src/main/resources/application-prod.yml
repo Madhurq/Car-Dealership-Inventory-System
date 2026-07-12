@@ -5,7 +5,7 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD} # Render will inject this
   jpa:
     hibernate:
-      ddl-auto: validate # NEVER use 'update' in production. We validate the schema instead.
+      ddl-auto: create-drop # ponytail: create for first deploy, switch to validate once schema exists
     show-sql: false
 
 app:
