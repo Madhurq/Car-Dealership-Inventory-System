@@ -71,7 +71,10 @@ export default function App() {
           path="/admin"
           element={
             <AdminRoute>
-              <AdminPage />
+              <Navbar />
+              <main className="pt-16">
+                <PageWrap><AdminPage /></PageWrap>
+              </main>
             </AdminRoute>
           }
         />

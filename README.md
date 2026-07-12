@@ -8,7 +8,7 @@ A full-stack inventory management system for car dealerships. Browse, search, pu
 
 **Frontend:** React 19, Vite 8, Tailwind CSS 4, Framer Motion, React Router 7, Axios, React Hot Toast, React Icons
 
-**Testing:** JUnit 5 + Mockito (backend — 71 tests), Vitest + React Testing Library (frontend — 31 tests)
+**Testing:** JUnit 5 + Mockito (backend — 65 tests), Vitest + React Testing Library (frontend — 44 tests)
 
 ## Getting Started
 
@@ -17,6 +17,7 @@ A full-stack inventory management system for car dealerships. Browse, search, pu
 - Java 17+
 - Maven 3.8+
 - Node.js 18+
+- PostgreSQL (for production)
 
 ### Backend
 
@@ -28,6 +29,8 @@ mvn spring-boot:run
 Starts on `http://localhost:8080`.
 
 Dev credentials: `admin@dealership.com` / `admin123`
+
+For production, use Docker: `docker build -t autovault . && docker run -p 8080:8080 autovault`
 
 ### Frontend
 
@@ -41,9 +44,9 @@ Starts on `http://localhost:5173` and proxies API calls to the backend.
 
 ## Features
 
-- **Public:** Browse vehicle inventory, search by make/model/category/price range
-- **Authenticated users:** Purchase vehicles
-- **Admin users:** Add, edit, delete vehicles; restock inventory
+- **Public:** Animated landing page with vehicle showcase and brand marquee
+- **Authenticated users:** Browse vehicle inventory, search by make/model/category/price range, purchase vehicles
+- **Admin users:** Add, edit, delete vehicles; restock inventory; dashboard with stats, charts, and alerts
 - **Auth:** JWT-based registration and login with role-based access control
 
 ## API Endpoints
@@ -52,9 +55,9 @@ Starts on `http://localhost:5173` and proxies API calls to the backend.
 |--------|----------|------|-------------|
 | POST | `/api/auth/register` | — | Register new user |
 | POST | `/api/auth/login` | — | Login, returns JWT |
-| GET | `/api/vehicles` | — | List all vehicles |
-| GET | `/api/vehicles/search` | — | Search with filters |
-| GET | `/api/vehicles/{id}` | — | Get vehicle by ID |
+| GET | `/api/vehicles` | User | List all vehicles |
+| GET | `/api/vehicles/search` | User | Search with filters |
+| GET | `/api/vehicles/{id}` | User | Get vehicle by ID |
 | POST | `/api/vehicles` | Admin | Add vehicle |
 | PUT | `/api/vehicles/{id}` | Admin | Update vehicle |
 | DELETE | `/api/vehicles/{id}` | Admin | Delete vehicle |
@@ -64,10 +67,10 @@ Starts on `http://localhost:5173` and proxies API calls to the backend.
 ## Running Tests
 
 ```bash
-# Backend (71 tests)
+# Backend (65 tests — 6 DB integration tests require PostgreSQL)
 cd backend && mvn test
 
-# Frontend (31 tests)
+# Frontend (44 tests)
 cd frontend && npm test
 ```
 
@@ -76,25 +79,27 @@ cd frontend && npm test
 ```
 ├── backend/
 │   ├── src/main/java/com/dealership/inventory/
-│   │   ├── config/          # Security, JWT config
+│   │   ├── config/          # Security, JWT, CORS config + DataSeeder
 │   │   ├── controller/      # REST controllers
 │   │   ├── dto/             # Request/Response DTOs
-│   │   ├── entity/          # JPA entities
+│   │   ├── model/           # JPA entities
 │   │   ├── exception/       # Global exception handler
 │   │   ├── repo/            # Spring Data repositories
 │   │   └── service/         # Business logic
-│   └── src/test/java/       # 71 tests
+│   └── src/test/java/       # 65 tests
 └── frontend/
     └── src/
         ├── api/             # Axios instance with JWT interceptor
-        ├── components/      # Navbar, SearchBar, VehicleForm, ProtectedRoute, AdminRoute
+        ├── components/      # Navbar, SearchBar, VehicleForm, VehicleCard, ProtectedRoute, AdminRoute
         ├── context/         # AuthContext (login, register, logout)
-        └── pages/           # HomePage, LoginPage, RegisterPage, AdminPage
+        └── pages/           # LandingPage, HomePage, LoginPage, RegisterPage, AdminPage
 ```
 
 ## My AI Usage
 
-I used AI (opencode with Claude) as a coding assistant throughout this project. Here's a summary of how:
+I used AI as a coding assistant throughout this project. Here's a summary of how:
+
+**Models used:** opencode with Claude (primary), Gemini, Deepseek, and GLM for secondary tasks.
 
 **Planning and architecture:** I described the project requirements and asked the AI to help plan the file structure, API design, and component hierarchy. The AI helped identify the minimal set of components and routes needed.
 
@@ -112,6 +117,6 @@ I used AI (opencode with Claude) as a coding assistant throughout this project. 
 
 | Suite | Tests | Passing | Failing |
 |-------|-------|---------|---------|
-| Backend | 71 | 71 | 0 |
-| Frontend | 31 | 31 | 0 |
-| **Total** | **102** | **102** | **0** |
+| Backend | 71 | 65 | 6 (need PostgreSQL) |
+| Frontend | 44 | 44 | 0 |
+| **Total** | **115** | **109** | **6** |

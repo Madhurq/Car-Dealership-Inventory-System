@@ -29,7 +29,7 @@ public class VehicleService {
     }
 
     private String wrapLike(String value) {
-        return value != null ? "%" + value + "%" : null;
+        return value != null ? "%" + value.toLowerCase() + "%" : null;
     }
 
     public Vehicle findById(Long id) {
