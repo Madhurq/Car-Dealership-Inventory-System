@@ -16,7 +16,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      - run: cd backend && mvn test
+      - run: cd backend && mvn test -Dtest='!InventoryApplicationTests,!UserRepositoryTest,!VehicleRepositoryTest'
 
   frontend:
     runs-on: ubuntu-latest

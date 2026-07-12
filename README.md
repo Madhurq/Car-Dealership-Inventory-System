@@ -2,6 +2,8 @@
 
 A full-stack inventory management system for car dealerships. Browse, search, purchase vehicles, and manage inventory with an admin panel.
 
+**Live:** [Frontend (Vercel)](https://car-dealership-inventory-system-sigma.vercel.app/) · [Backend API (Render)](https://car-dealership-inventory-system-arxh.onrender.com)
+
 ## Tech Stack
 
 **Backend:** Java 17, Spring Boot 3.3.5, Spring Data JPA, H2 (dev) / PostgreSQL (prod), JWT auth, Maven
@@ -74,6 +76,29 @@ cd backend && mvn test
 cd frontend && npm test
 ```
 
+## Screenshots
+
+### Landing Page
+![Landing Page](screenshots/landing.png)
+
+### Vehicle Inventory
+![Vehicle Inventory](screenshots/inventory.png)
+
+### Vehicle Search
+![Vehicle Search](screenshots/search.png)
+
+### Admin Dashboard
+![Admin Dashboard](screenshots/admin-dashboard.png)
+
+### Admin - Add/Edit Vehicle
+![Admin Add Vehicle](screenshots/admin-add-vehicle.png)
+
+### Login
+![Login](screenshots/login.png)
+
+### Register
+![Register](screenshots/register.png)
+
 ## Project Structure
 
 ```
@@ -99,19 +124,18 @@ cd frontend && npm test
 
 I used AI as a coding assistant throughout this project. Here's a summary of how:
 
-**Models used:** opencode with Claude (primary), Gemini, Deepseek, and GLM for secondary tasks.
+**AI tools used:** opencode with Claude (primary), Gemini, Deepseek, and GLM.
 
-**Planning and architecture:** I described the project requirements and asked the AI to help plan the file structure, API design, and component hierarchy. The AI helped identify the minimal set of components and routes needed.
+**How I used them:**
 
-**Test-first development:** I followed TDD with the AI writing RED tests first (committing them), then GREEN implementations. The AI was particularly useful for generating comprehensive test cases — it caught edge cases I might have missed, like testing error states, loading states, and role-based access.
+- **Planning and architecture:** I described the project requirements and asked the AI to help plan the file structure, API design, and component hierarchy. The AI helped identify the minimal set of components and routes needed.
+- **Test-first development:** I followed TDD with the AI writing RED tests first (committing them), then GREEN implementations. The AI was particularly useful for generating comprehensive test cases — it caught edge cases I might have missed, like testing error states, loading states, and role-based access.
+- **Backend fixes:** The AI diagnosed the Lombok annotation processor issue (missing `annotationProcessorPaths` in `pom.xml`) that was preventing compilation, and fixed the configuration metadata type mismatch — both bugs I hadn't caught yet.
+- **Frontend implementation:** The AI scaffolded the initial React components, wired up routing with React Router, configured Tailwind CSS v4 (which uses a new CSS-based config), and built out the full admin panel with vehicle CRUD operations.
+- **Debugging:** When tests failed, the AI quickly identified root causes — like a test expecting inline error text when the component only used toast notifications, or DOM queries returning multiple matching elements — and fixed them with minimal changes.
+- **Deployment:** The AI helped set up the Dockerfile, Docker multi-stage build, GitHub Actions CI/CD pipeline, and debugged production issues like JWT secret validation and Hibernate `create-drop` destroying tables on container restart.
 
-**Backend fixes:** The AI diagnosed the Lombok annotation processor issue (missing `annotationProcessorPaths` in `pom.xml`) that was preventing compilation, and fixed the configuration metadata type mismatch — both bugs I hadn't caught yet.
-
-**Frontend implementation:** The AI scaffolded the initial React components, wired up routing with React Router, configured Tailwind CSS v4 (which uses a new CSS-based config), and built out the full admin panel with vehicle CRUD operations.
-
-**Debugging:** When tests failed, the AI quickly identified root causes — like a test expecting inline error text when the component only used toast notifications, or DOM queries returning multiple matching elements — and fixed them with minimal changes.
-
-**What I did myself:** All product decisions (what features to build, what the UI should look like, the teal/cream color scheme), code review of every change, and final verification that everything worked together. The AI was a tool for execution speed, not decision-making.
+**Reflection on AI impact:** AI significantly accelerated my development workflow. Tasks that would have taken hours — like generating 65+ backend test cases, debugging Spring Boot configuration issues, and building a complete React admin panel — were completed in a fraction of the time. The AI was most valuable for boilerplate generation, test coverage, and diagnosing non-obvious configuration errors. However, I made all product decisions myself: what features to build, the UI design (teal/cream color scheme), and the overall architecture. The AI was a tool for execution speed, not decision-making.
 
 ## Test Report
 
