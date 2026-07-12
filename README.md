@@ -82,22 +82,16 @@ cd frontend && npm test
 ![Landing Page](screenshots/landing.png)
 
 ### Vehicle Inventory
-![Vehicle Inventory](screenshots/inventory.png)
-
-### Vehicle Search
-![Vehicle Search](screenshots/search.png)
+![Vehicle Inventory](screenshots/user.png)
 
 ### Admin Dashboard
-![Admin Dashboard](screenshots/admin-dashboard.png)
+![Admin Dashboard](screenshots/admin.png)
 
 ### Admin - Add/Edit Vehicle
-![Admin Add Vehicle](screenshots/admin-add-vehicle.png)
+![Admin Add Vehicle](screenshots/admin-2.png)
 
-### Login
-![Login](screenshots/login.png)
-
-### Register
-![Register](screenshots/register.png)
+### Login & Register
+![Auth Pages](screenshots/auth.png)
 
 ## Project Structure
 
