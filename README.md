@@ -30,7 +30,7 @@ mvn spring-boot:run
 
 Starts on `http://localhost:8080`.
 
-Dev credentials: `admin@dealership.com` / `admin123`
+ADMIN credentials: `admin@dealership.com` / `admin123`
 
 For production, use Docker: `docker build -t autovault . && docker run -p 8080:8080 autovault`
 
