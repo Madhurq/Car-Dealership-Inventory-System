@@ -24,7 +24,7 @@ export default function VehicleCard({ vehicle, onPurchase, purchaseLoading }) {
       <div className="vehicle-card-footer">
         <div className="vehicle-price">
           <HiOutlineTag className="price-icon" />
-          <span>${vehicle.price.toLocaleString()}</span>
+          <span>₹{vehicle.price.toLocaleString()}</span>
         </div>
 
         <button

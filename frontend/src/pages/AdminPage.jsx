@@ -149,7 +149,7 @@ export default function AdminPage() {
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8"
       >
         <StatCard icon={RiCarLine} label="Total Vehicles" value={stats.total} color="blue" />
-        <StatCard icon={HiOutlineTag} label="Inventory Value" value={stats.value} color="emerald" prefix="$" />
+        <StatCard icon={HiOutlineTag} label="Inventory Value" value={stats.value} color="emerald" prefix="₹" />
         <StatCard icon={HiOutlineExclamationCircle} label="Low Stock" value={stats.lowStock} color="amber" />
         <StatCard icon={HiOutlineViewGrid} label="Out of Stock" value={stats.outOfStock} color="purple" />
       </motion.div>
@@ -247,7 +247,7 @@ export default function AdminPage() {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-gray-900">{v.make} {v.model}</p>
-                    <p className="text-xs text-gray-500">{v.category} &middot; ${v.price.toLocaleString()}</p>
+                    <p className="text-xs text-gray-500">{v.category} &middot; ₹{v.price.toLocaleString()}</p>
                   </div>
                 </div>
                 <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${v.quantity <= 0 ? 'bg-red-50 text-red-600' : v.quantity <= 3 ? 'bg-amber-50 text-amber-600' : 'bg-emerald-50 text-emerald-600'}`}>
@@ -390,7 +390,7 @@ function VehicleRow({ vehicle, onEdit, onDelete, onRestock }) {
       <td className="px-6 py-3.5">
         <span className="text-xs font-medium text-gray-600 bg-gray-100 px-2.5 py-1 rounded-full">{v.category}</span>
       </td>
-      <td className="px-6 py-3.5 text-right font-medium text-gray-900">${v.price.toLocaleString()}</td>
+      <td className="px-6 py-3.5 text-right font-medium text-gray-900">₹{v.price.toLocaleString()}</td>
       <td className="px-6 py-3.5 text-right">
         <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${v.quantity <= 0 ? 'bg-red-50 text-red-600' : v.quantity <= 3 ? 'bg-amber-50 text-amber-600' : 'bg-emerald-50 text-emerald-600'}`}>
           {v.quantity}

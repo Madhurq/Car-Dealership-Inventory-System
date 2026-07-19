@@ -51,8 +51,8 @@ describe('HomePage', () => {
     renderPage();
     expect(await screen.findByText('Toyota')).toBeInTheDocument();
     expect(screen.getByText('Honda')).toBeInTheDocument();
-    expect(screen.getByText('$25,000')).toBeInTheDocument();
-    expect(screen.getByText('$22,000')).toBeInTheDocument();
+    expect(screen.getByText('₹25,000')).toBeInTheDocument();
+    expect(screen.getByText('₹22,000')).toBeInTheDocument();
   });
 
   it('shows out of stock badge', async () => {

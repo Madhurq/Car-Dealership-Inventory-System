@@ -234,7 +234,7 @@ function VehicleCard({ vehicle, onPurchase, purchaseLoading, onEdit }) {
 
         <div className="flex items-center gap-1.5 mt-4 text-gray-900 font-semibold">
           <HiOutlineTag className="w-4 h-4 text-gray-400" />
-          ${vehicle.price.toLocaleString()}
+          ₹{vehicle.price.toLocaleString()}
         </div>
       </div>
 
